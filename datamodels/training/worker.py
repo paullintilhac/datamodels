@@ -10,7 +10,6 @@
 from fastargs.decorators import param
 from fastargs import Param, Section
 import tqdm
-from functools import cache
 
 import importlib.util
 import sys
@@ -53,7 +52,6 @@ def kv_log(k, v, logdir, index):
     mmap[index] = v
     mmap.flush()
 
-@cache
 def get_mmap(fn, mode):
     return np.load(fn, mmap_mode=mode)
 

@@ -36,7 +36,7 @@ Section('data', 'data related stuff').params(
     train_dataset=Param(str, '.dat file to use for training', 
         default='/content/cifar_train.beton'),
     val_dataset=Param(str, '.dat file to use for validation', 
-        default='/content/cifar-ffcv/cifar_val.beton'),
+        default='/content/cifar_val.beton'),
 )
 
 @param('data.train_dataset')
