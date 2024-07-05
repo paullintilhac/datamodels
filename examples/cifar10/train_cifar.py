@@ -46,7 +46,8 @@ Section('data', 'data related stuff').params(
 def make_dataloaders(train_dataset=None, val_dataset=None, batch_size=None, num_workers=None, mask=None):
     paths = {
         'train': train_dataset,
-        'test': val_dataset
+        'test': val_dataset,
+        'superset': train_dataset,
     }
 
     start_time = time.time()
