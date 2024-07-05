@@ -77,7 +77,6 @@ def make_dataloaders(train_dataset=None, val_dataset=None, batch_size=None, num_
                                batch_size=batch_size, num_workers=num_workers,
                                order=ordering, drop_last=(name == 'train'),
                                pipelines={'image': image_pipeline, 'label': label_pipeline})
-
     return loaders
 
 # Model (from KakaoBrain: https://github.com/wbaek/torchskeleton)
@@ -157,16 +156,16 @@ def evaluate(model, loaders, lr_tta=False):
     model.eval()
     with ch.no_grad():
         all_margins = []
-        for ims, labs in tqdm(loaders['test']):
+        for ims, labs in tqdm(loaders['train']):
             with autocast():
                 out = model(ims)
                 if lr_tta:
                     out += model(ch.fliplr(ims))
                     out /= 2
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
-                out[ch.arange(out.shape[0]), labs] = -1000
-                next_classes = out.argmax(1)
-                class_logits -= out[ch.arange(out.shape[0]), next_classes]
+                #out[ch.arange(out.shape[0]), labs] = -1000
+                #next_classes = out.argmax(1)
+                #class_logits -= out[ch.arange(out.shape[0]), next_classes]
                 all_margins.append(class_logits.cpu())
         all_margins = ch.cat(all_margins)
         print('Average margin:', all_margins.mean())

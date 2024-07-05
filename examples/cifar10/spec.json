@@ -6,7 +6,7 @@
             "dtype": "bool_"
         },
         "margins": {
-            "shape": [10000],
+            "shape": [50000],
             "dtype": "float16"
         }
     }
