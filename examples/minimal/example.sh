@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-tmp_dir=/tmp/$RANDOM
+tmp_dir=./tmp/$RANDOM
 mkdir $tmp_dir
 
 echo "Logging in $tmp_dir"
