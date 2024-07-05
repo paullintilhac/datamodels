@@ -168,6 +168,7 @@ def evaluate(model, loaders, lr_tta=False):
                 #class_logits -= out[ch.arange(out.shape[0]), next_classes]
                 all_margins.append(class_logits.cpu())
         all_margins = ch.cat(all_margins)
+        print("all_margins shape: " + str(all_margins.shape))
         print('Average margin:', all_margins.mean())
         return all_margins.numpy()
 
