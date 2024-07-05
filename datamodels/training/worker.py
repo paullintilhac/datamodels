@@ -82,7 +82,7 @@ def do_index(*_, index, routine, logdir, do_if_complete, job_timeout):
 
     signal.alarm(job_timeout)
     to_log = routine(index=index, logdir=str(worker_logs))
-
+    print("COMPLETED: " + str(COMPLETED) + ", k: " + str(k) + ",v: " + str(v))
     assert not COMPLETED in to_log, f"no '{COMPLETED}' key allowed in returned data"
     for k, v in to_log.items():
         kv_log(k, v, index=index)
