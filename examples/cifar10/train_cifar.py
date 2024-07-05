@@ -77,7 +77,7 @@ def make_dataloaders(train_dataset=None, val_dataset=None, batch_size=None, num_
                                batch_size=batch_size, num_workers=num_workers,
                                order=ordering, drop_last=(name == 'train'),
                                pipelines={'image': image_pipeline, 'label': label_pipeline})
-        print("length of train loader: " + str(len(loaders['superset'])))
+    print("length of train loader: " + str(len(loaders['superset'])))
     return loaders
 
 # Model (from KakaoBrain: https://github.com/wbaek/torchskeleton)
