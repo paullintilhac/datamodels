@@ -54,10 +54,10 @@ def make_dataloaders(train_dataset=None, val_dataset=None, batch_size=None, num_
     CIFAR_STD = [51.5865, 50.847, 51.255]
     loaders = {}
 
-    for name in ['train', 'test']:
+    for name in ['train', 'test','superset']:
         label_pipeline: List[Operation] = [IntDecoder(), ToTensor(), ToDevice('cuda:0'), Squeeze()]
         image_pipeline: List[Operation] = [SimpleRGBImageDecoder()]
-        if name == 'train':
+        if name in ['train','superset']:
             image_pipeline.extend([
                 RandomHorizontalFlip(),
                 RandomTranslate(padding=2, fill=tuple(map(int, CIFAR_MEAN))),
@@ -77,6 +77,7 @@ def make_dataloaders(train_dataset=None, val_dataset=None, batch_size=None, num_
                                batch_size=batch_size, num_workers=num_workers,
                                order=ordering, drop_last=(name == 'train'),
                                pipelines={'image': image_pipeline, 'label': label_pipeline})
+        print("length of train loader: " + str(len(loaders['superset'])))
     return loaders
 
 # Model (from KakaoBrain: https://github.com/wbaek/torchskeleton)
@@ -156,7 +157,8 @@ def evaluate(model, loaders, lr_tta=False):
     model.eval()
     with ch.no_grad():
         all_margins = []
-        for ims, labs in tqdm(loaders['train']):
+        
+        for ims, labs in tqdm(loaders['superset']):
             with autocast():
                 out = model(ims)
                 if lr_tta:
