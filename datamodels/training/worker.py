@@ -49,6 +49,7 @@ def kv_log(k, v, logdir, index):
 
     # now acutally open it for writing
     mmap = get_mmap(this_filename, 'r+')
+    print("v: " + str(v) + ", index: " +str(index))
     mmap[index] = v
     mmap.flush()
 
