@@ -46,7 +46,7 @@ def kv_log(k, v, logdir, index):
     this_filename = memmap_path(logdir, k)
     # make sure that the mmap actually exists
     assert this_filename.exists(), this_filename
-
+    print("filename: " + str(this_filename))
     # now acutally open it for writing
     mmap = get_mmap(this_filename, 'r+')
     print("v: " + str(v) + ", index: " +str(index))
