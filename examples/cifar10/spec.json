@@ -1,5 +1,5 @@
 {
-    "num_models": 100,
+    "num_models": 10000,
     "schema": {
         "masks": {
             "shape": [50000],
