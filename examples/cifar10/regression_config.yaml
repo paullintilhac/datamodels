@@ -13,7 +13,7 @@ cfg:
     lr: 1e-4 # Learning rate
     eps: 1e-2 # Multiplicative difference between the highest and lowest lambda
     out_dir: OUT_DIR # Where to save the results
-    num_workers: 8 # Number of workers for dataloader
+    num_workers: 1 # Number of workers for dataloader
 early_stopping:
     check_every: 3 # How often to check for inner and outer-loop convergence
     eps: 5e-1 # Tolerance for inner-loop convergence (see GLMNet docs)
