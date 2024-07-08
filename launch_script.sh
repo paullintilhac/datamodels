@@ -17,4 +17,4 @@ source activate ffcv2
 nvcc --version
 echo conda env:
 
-./examples/cifar10/example.sh
+./examples/cifar10/example.sh -d "/content/drive"
