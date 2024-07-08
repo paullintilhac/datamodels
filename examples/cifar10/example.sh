@@ -17,11 +17,11 @@ python -m datamodels.training.initialize_store \
 # parallel parses each of these separately and sends them to the python invocation
 # there are 8 gpus available so we use 8 jobs and assign each a gpu according to the
 #   index number (i.e. the current `seq` output) modulo 8
-echo $CUDA_VIWSIBLE_DEVICES
-seq 0 9999 | parallel -k --lb -j2 CUDA_VISIBLE_DEVICES='$(({%} % 2))' \
+
+seq 0 999 | parallel -k --lb -j2 CUDA_VISIBLE_DEVICES='$(({%} % 2))' \
  python -m datamodels.training.worker \
     --worker.index={} \
-    --worker.main_import=examples.cifar10.train_cifar  \
+    --worker.main_import=examples.cifar10.train_cifar \
     --worker.logdir=${tmp_dir}
 
 echo "\n\n"
