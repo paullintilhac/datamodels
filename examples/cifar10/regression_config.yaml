@@ -4,7 +4,7 @@ data:
     num_val: 10 # Number of models to use for validation
     seed: 0 # Random seed for picking validation set
     target_start_ind: 0 # Select a slice of the data to run on
-    target_end_ind: -1 # Select a slice of the data to run on (-1 = end)
+    target_end_ind: 10000 # Select a slice of the data to run on (-1 = end)
     # If target_start_ind and target_end_ind are specified, will slice the
     # output variable accordingly
 cfg:
