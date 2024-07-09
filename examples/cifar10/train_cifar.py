@@ -171,9 +171,9 @@ def evaluate(model, loaders, lr_tta=False):
                 #using correct class margins, not confidences
                 print("using correct class margins!")
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
-                out[ch.arange(out.shape[0]), labs] = -1000
-                next_classes = out.argmax(1)
-                class_logits -= out[ch.arange(out.shape[0]), next_classes]
+                #out[ch.arange(out.shape[0]), labs] = -1000
+                #next_classes = out.argmax(1)
+                #class_logits -= out[ch.arange(out.shape[0]), next_classes]
                 all_margins.append(class_logits.cpu())
         all_margins = ch.cat(all_margins)
         print("all_margins shape: " + str(all_margins.shape))
