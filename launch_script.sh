@@ -10,7 +10,7 @@
 #SBATCH --time=80:00:00  # Time limit hrs:min:sec
 
 #SBATCH --partition=gpuq  # Specify the partition to submit to
-#SBATCH --gres=gpu:2
+#SBATCH --gres=gpu:1
 echo $(hostname -s)
 
 source activate ffcv2
