@@ -9,7 +9,7 @@ from torch.cuda.amp import GradScaler, autocast
 from torch.nn import CrossEntropyLoss
 from torch.optim import SGD, lr_scheduler
 import torchvision
-
+import argparse
 from fastargs import get_current_config, Param, Section
 from fastargs.decorators import param
 
@@ -19,6 +19,13 @@ from ffcv.pipeline.operation import Operation
 from ffcv.transforms import RandomHorizontalFlip, Cutout, \
     RandomTranslate, Convert, ToDevice, ToTensor, ToTorchImage
 from ffcv.transforms.common import Squeeze
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='train cifar models on subsets of the trianing data.')
+    parser.add_argument('--f', type=str, default="/dartfs/rc/lab/C/CybenkoG/cifar-ffcv")
+    return parser.parse_args()
+
+args = parse_args()
 
 Section('training', 'Hyperparameters').params(
     lr=Param(float, 'The learning rate to use', default=0.5),
@@ -34,9 +41,9 @@ Section('training', 'Hyperparameters').params(
 
 Section('data', 'data related stuff').params(
     train_dataset=Param(str, '.dat file to use for training', 
-        default='/dartfs/rc/lab/C/CybenkoG/cifar-ffcv/cifar_train.beton'),
+        default=args.f + '/cifar_train.beton'),
     val_dataset=Param(str, '.dat file to use for validation', 
-        default='/dartfs/rc/lab/C/CybenkoG/cifar-ffcv/cifar_val.beton'),
+        default=args.f+'/cifar_val.beton'),
 )
 
 @param('data.train_dataset')

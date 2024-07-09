@@ -20,7 +20,7 @@ python -m datamodels.training.initialize_store \
 seq 0 999 | parallel -k --lb -j2 CUDA_VISIBLE_DEVICES='$(({%} % 2))' \
  python -m datamodels.training.worker \
     --worker.index={} \
-    --worker.main_import=examples.cifar10.train_cifar \
+    --worker.main_import=examples.cifar10.train_cifar --f "/content" \
     --worker.logdir=${tmp_dir}
 
 echo "\n\n"
