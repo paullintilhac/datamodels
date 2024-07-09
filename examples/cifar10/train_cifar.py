@@ -31,7 +31,7 @@ Section('training', 'Hyperparameters').params(
     num_workers=Param(int, 'The number of workers', default=1),
     lr_tta=Param(bool, 'Test time augmentation by averaging with horizontally flipped version', default=True)
 )
-file_prefix = "dartfs/rc/lab/C/CybenkoG/cifar-ffcv"
+file_prefix = "/dartfs/rc/lab/C/CybenkoG/cifar-ffcv"
 Section('data', 'data related stuff').params(
     train_dataset=Param(str, '.dat file to use for training', 
         default=file_prefix+ '/cifar_train.beton'),
