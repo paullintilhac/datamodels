@@ -20,13 +20,6 @@ from ffcv.transforms import RandomHorizontalFlip, Cutout, \
     RandomTranslate, Convert, ToDevice, ToTensor, ToTorchImage
 from ffcv.transforms.common import Squeeze
 
-def parse_args():
-    parser = argparse.ArgumentParser(description='train cifar models on subsets of the trianing data.')
-    parser.add_argument('--f', type=str, default="/dartfs/rc/lab/C/CybenkoG/cifar-ffcv")
-    return parser.parse_args()
-
-args = parse_args()
-
 Section('training', 'Hyperparameters').params(
     lr=Param(float, 'The learning rate to use', default=0.5),
     epochs=Param(int, 'Number of epochs to run for', default=24),
@@ -38,12 +31,12 @@ Section('training', 'Hyperparameters').params(
     num_workers=Param(int, 'The number of workers', default=1),
     lr_tta=Param(bool, 'Test time augmentation by averaging with horizontally flipped version', default=True)
 )
-
+file_prefix = "dartfs/rc/lab/C/CybenkoG/cifar-ffcv"
 Section('data', 'data related stuff').params(
     train_dataset=Param(str, '.dat file to use for training', 
-        default=args.f + '/cifar_train.beton'),
+        default=file_prefix+ '/cifar_train.beton'),
     val_dataset=Param(str, '.dat file to use for validation', 
-        default=args.f+'/cifar_val.beton'),
+        default=file_prefix+'/cifar_val.beton'),
 )
 
 @param('data.train_dataset')
