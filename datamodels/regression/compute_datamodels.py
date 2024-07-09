@@ -128,14 +128,15 @@ def main(lr: float, k: int, eps: float,
          target_end_ind: int):
     train_loader, val_loader, full_loader = make_loaders()
     max_lam = regressor.calc_max_lambda(train_loader)
-
+    print("max_lambda shape: " +str(max_lam.shape))
     n_features = train_loader.reader.handlers['mask'].shape[0]
     n_targets = train_loader.reader.handlers['targets'].shape[0]
+    print('n targets: ' + str(n_targets) + ",n_features: " + str(n_features))
     if target_end_ind == -1:
         n_targets -= target_start_ind
     else:
         n_targets = target_end_ind - target_start_ind
-
+    print("new n_targets: " + str(n_targets))
     n_targets = int(n_targets)
     print(n_features, n_targets)
 
