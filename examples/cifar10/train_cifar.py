@@ -28,7 +28,7 @@ Section('training', 'Hyperparameters').params(
     momentum=Param(float, 'Momentum for SGD', default=0.9),
     weight_decay=Param(float, 'l2 weight decay', default=5e-4),
     label_smoothing=Param(float, 'Value of label smoothing', default=0.1),
-    num_workers=Param(int, 'The number of workers', default=1),
+    num_workers=Param(int, 'The number of workers', default=2),
     lr_tta=Param(bool, 'Test time augmentation by averaging with horizontally flipped version', default=True)
 )
 file_prefix = "/dartfs/rc/lab/C/CybenkoG/cifar-ffcv"
