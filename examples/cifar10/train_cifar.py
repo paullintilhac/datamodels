@@ -22,7 +22,7 @@ from ffcv.transforms.common import Squeeze
 
 Section('training', 'Hyperparameters').params(
     lr=Param(float, 'The learning rate to use', default=0.5),
-    epochs=Param(int, 'Number of epochs to run for', default=20),
+    epochs=Param(int, 'Number of epochs to run for', default=24),
     lr_peak_epoch=Param(int, 'Peak epoch for cyclic lr', default=5),
     batch_size=Param(int, 'Batch size', default=512),
     momentum=Param(float, 'Momentum for SGD', default=0.9),
@@ -34,7 +34,7 @@ Section('training', 'Hyperparameters').params(
 file_prefix = "/dartfs/rc/lab/C/CybenkoG/cifar-ffcv"
 Section('data', 'data related stuff').params(
     train_dataset=Param(str, '.dat file to use for training', 
-        default=file_prefix+ '/cifar_val.beton'),
+        default=file_prefix+ '/cifar_train.beton'),
     val_dataset=Param(str, '.dat file to use for validation', 
         default=file_prefix+'/cifar_val.beton'),
 )
@@ -189,7 +189,8 @@ def main(index, logdir):
     config.validate(mode='stderr')
     config.summary()
 
-    mask = (np.random.rand(10_000) > 0.5)
+
+    mask = (np.random.rand(50_000) > 0.5)
     loaders = make_dataloaders(mask=np.nonzero(mask)[0])
     model = construct_model()
     train(model, loaders)
