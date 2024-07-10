@@ -34,7 +34,7 @@ Section('training', 'Hyperparameters').params(
 file_prefix = "/dartfs/rc/lab/C/CybenkoG/cifar-ffcv"
 Section('data', 'data related stuff').params(
     train_dataset=Param(str, '.dat file to use for training', 
-        default=file_prefix+ '/cifar_train.beton'),
+        default=file_prefix+ '/cifar_val.beton'),
     val_dataset=Param(str, '.dat file to use for validation', 
         default=file_prefix+'/cifar_val.beton'),
 )
