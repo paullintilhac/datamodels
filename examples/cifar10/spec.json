@@ -2,11 +2,11 @@
     "num_models": 10000,
     "schema": {
         "masks": {
-            "shape": [50000],
+            "shape": [10000],
             "dtype": "bool_"
         },
         "margins": {
-            "shape": [50000],
+            "shape": [10000],
             "dtype": "float16"
         }
     }
