@@ -169,7 +169,7 @@ def evaluate(model, loaders, lr_tta=False):
                     out += model(ch.fliplr(ims))
                     out /= 2
                 #using correct class margins, not confidences
-                print("using correct class margins!")
+                print("using logits")
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
                 #out[ch.arange(out.shape[0]), labs] = -1000
                 #next_classes = out.argmax(1)

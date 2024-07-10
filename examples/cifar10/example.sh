@@ -4,7 +4,7 @@ set -e
 tmp_dir=./tmp/$RANDOM
 mkdir $tmp_dir
 echo "Job dir: ${tmp_dir}"
-conda activate ffcv2
+#conda activate ffcv2
 
 # first make the store
 # if you look at spec.json, we are training 10 models!
