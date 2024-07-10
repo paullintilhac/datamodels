@@ -22,7 +22,7 @@ from ffcv.transforms.common import Squeeze
 
 Section('training', 'Hyperparameters').params(
     lr=Param(float, 'The learning rate to use', default=0.5),
-    epochs=Param(int, 'Number of epochs to run for', default=10),
+    epochs=Param(int, 'Number of epochs to run for', default=5),
     lr_peak_epoch=Param(int, 'Peak epoch for cyclic lr', default=5),
     batch_size=Param(int, 'Batch size', default=512),
     momentum=Param(float, 'Momentum for SGD', default=0.9),
