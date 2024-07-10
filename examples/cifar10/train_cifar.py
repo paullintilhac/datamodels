@@ -173,9 +173,7 @@ def evaluate(model, loaders, lr_tta=False):
                     out /= 2
                 #using correct class margins, not confidences
                 #print("using logits")
-                if i==1:
-                    print("out shape: " + str(out.shape))
-                    print("prediction: " + str(prediction))
+                
                 prediction = ch.argmax(out[ch.arange(out.shape[0]), :],1)
                 accuracy = (prediction == labs)
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
