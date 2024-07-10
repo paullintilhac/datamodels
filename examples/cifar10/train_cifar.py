@@ -189,6 +189,7 @@ def main(index, logdir):
     config.validate(mode='stderr')
     config.summary()
 
+
     mask = (np.random.rand(10_000) > 0.5)
     loaders = make_dataloaders(mask=np.nonzero(mask)[0])
     model = construct_model()

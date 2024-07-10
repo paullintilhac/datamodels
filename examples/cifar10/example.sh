@@ -2,7 +2,7 @@
 
 set -e
 tmp_dir=./tmp/$RANDOM
-mkdir $tmp_dir
+mkdir -p $tmp_dir
 echo "Job dir: ${tmp_dir}"
 #conda activate ffcv2
 
