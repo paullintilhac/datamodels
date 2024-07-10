@@ -150,7 +150,6 @@ def train(model, loaders, lr=None, epochs=None, label_smoothing=None,
             with autocast():
                 out = model(ims)
                 loss = loss_fn(out, labs)
-                print("loss: " + str(loss))
 
             scaler.scale(loss).backward()
             scaler.step(opt)
