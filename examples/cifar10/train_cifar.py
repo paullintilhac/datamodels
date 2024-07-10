@@ -183,7 +183,7 @@ def evaluate(model, loaders, lr_tta=False):
                 all_margins.append(class_logits.cpu())
                 accuracies.append(accuracy.cpu())
         all_margins = ch.cat(all_margins)
-        accuracies = ch.cat(accuracies).long()
+        accuracies = ch.cat(accuracies).long().float()
         print("head of accuracies: " + str(accuracies[:5]))
         print("mean accuracy: " + str(ch.mean(accuracies)))
         print("all_margins shape: " + str(all_margins.shape))
