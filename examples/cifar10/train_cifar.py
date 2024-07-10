@@ -22,7 +22,7 @@ from ffcv.transforms.common import Squeeze
 
 Section('training', 'Hyperparameters').params(
     lr=Param(float, 'The learning rate to use', default=0.5),
-    epochs=Param(int, 'Number of epochs to run for', default=24),
+    epochs=Param(int, 'Number of epochs to run for', default=20),
     lr_peak_epoch=Param(int, 'Peak epoch for cyclic lr', default=5),
     batch_size=Param(int, 'Batch size', default=512),
     momentum=Param(float, 'Momentum for SGD', default=0.9),
@@ -72,7 +72,7 @@ def make_dataloaders(train_dataset=None, val_dataset=None, batch_size=None, num_
             torchvision.transforms.Normalize(CIFAR_MEAN, CIFAR_STD),
         ])
         
-        ordering = OrderOption.RANDOM if name == 'train' else OrderOption.SEQUENTIAL
+        ordering = OrderOption.SEQUENTIAL if name == 'train' else OrderOption.SEQUENTIAL
 
         loaders[name] = Loader(paths[name], indices=(mask if name == 'train' else None),
                                batch_size=batch_size, num_workers=num_workers,
@@ -189,7 +189,7 @@ def main(index, logdir):
     config.validate(mode='stderr')
     config.summary()
 
-    mask = (np.random.rand(50_000) > 0.5)
+    mask = (np.random.rand(10_000) > 0.5)
     loaders = make_dataloaders(mask=np.nonzero(mask)[0])
     model = construct_model()
     train(model, loaders)
