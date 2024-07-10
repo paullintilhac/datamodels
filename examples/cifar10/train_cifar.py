@@ -143,7 +143,7 @@ def train(model, loaders, lr=None, epochs=None, label_smoothing=None,
     scheduler = lr_scheduler.LambdaLR(opt, lr_schedule.__getitem__)
     scaler = GradScaler()
     loss_fn = CrossEntropyLoss(label_smoothing=label_smoothing)
-
+    loss = None
     for _ in range(epochs):
         for ims, labs in tqdm(loaders['train']):
             opt.zero_grad(set_to_none=True)
@@ -156,6 +156,7 @@ def train(model, loaders, lr=None, epochs=None, label_smoothing=None,
             scaler.step(opt)
             scaler.update()
             scheduler.step()
+    print("done training! loss: " +str(loss) )
 
 @param('training.lr_tta')
 def evaluate(model, loaders, lr_tta=False):
