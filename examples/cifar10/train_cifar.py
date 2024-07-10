@@ -162,7 +162,7 @@ def evaluate(model, loaders, lr_tta=False):
     model.eval()
     with ch.no_grad():
         all_margins = []
-        #accuracies=[]
+        accuracies=[]
         i=0
         for ims, labs in tqdm(loaders['superset']):
             i+=1
@@ -174,18 +174,18 @@ def evaluate(model, loaders, lr_tta=False):
                 #using correct class margins, not confidences
                 #print("using logits")
                 
-                #prediction = ch.argmax(out[ch.arange(out.shape[0]), :],1)
-                #accuracy = (prediction == labs)
+                prediction = ch.argmax(out[ch.arange(out.shape[0]), :],1)
+                accuracy = (prediction == labs)
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
                 #out[ch.arange(out.shape[0]), labs] = -1000
                 #next_classes = out.argmax(1)
                 #class_logits -= out[ch.arange(out.shape[0]), next_classes]
                 all_margins.append(class_logits.cpu())
-                #accuracies.append(accuracy.cpu())
+                accuracies.append(accuracy.cpu())
         all_margins = ch.cat(all_margins)
-        #accuracies = ch.cat(accuracies).long().float()
-        #print("head of accuracies: " + str(accuracies[:5]))
-        #print("mean accuracy: " + str(ch.mean(accuracies)))
+        accuracies = ch.cat(accuracies).long().float()
+        print("head of accuracies: " + str(accuracies[:5]))
+        print("mean accuracy: " + str(ch.mean(accuracies)))
         #print("all_margins shape: " + str(all_margins.shape))
         #print('Average margin:', all_margins.mean())
         return all_margins.numpy()
