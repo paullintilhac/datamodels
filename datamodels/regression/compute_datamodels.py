@@ -77,6 +77,7 @@ def make_loader(subset, data_path=None, num_workers=None,
                 drop_last=True, batch_size: int = 0) -> Loader:
     assert len(subset) % batch_size == 0, \
         f'Batch size ({batch_size}) should divide dataset size ({len(subset)})'
+    print("subset size: " + str(len(subset)))
     return Loader(data_path,
                   batch_size=batch_size,
                   num_workers=num_workers,
