@@ -22,19 +22,19 @@ from ffcv.transforms.common import Squeeze
 
 Section('training', 'Hyperparameters').params(
     lr=Param(float, 'The learning rate to use', default=0.5),
-    epochs=Param(int, 'Number of epochs to run for', default=5),
+    epochs=Param(int, 'Number of epochs to run for', default=25),
     lr_peak_epoch=Param(int, 'Peak epoch for cyclic lr', default=5),
     batch_size=Param(int, 'Batch size', default=512),
     momentum=Param(float, 'Momentum for SGD', default=0.9),
     weight_decay=Param(float, 'l2 weight decay', default=5e-4),
     label_smoothing=Param(float, 'Value of label smoothing', default=0.1),
-    num_workers=Param(int, 'The number of workers', default=1),
+    num_workers=Param(int, 'The number of workers', default=2),
     lr_tta=Param(bool, 'Test time augmentation by averaging with horizontally flipped version', default=True)
 )
 file_prefix = "/content"
 Section('data', 'data related stuff').params(
     train_dataset=Param(str, '.dat file to use for training', 
-        default=file_prefix+ '/cifar_train.beton'),
+        default=file_prefix+ '/cifar_val.beton'),
     val_dataset=Param(str, '.dat file to use for validation', 
         default=file_prefix+'/cifar_val.beton'),
 )
@@ -56,7 +56,7 @@ def make_dataloaders(train_dataset=None, val_dataset=None, batch_size=None, num_
     loaders = {}
 
     for name in ['train', 'test','superset']:
-        label_pipeline: List[Operation] = [IntDecoder(), ToTensor(), ToDevice('cuda:0'), Squeeze()]
+        label_pipeline: List[Operation] = [IntDecoder(), ToTensor(), ToDevice(ch.device("cuda:0")), Squeeze()]
         image_pipeline: List[Operation] = [SimpleRGBImageDecoder()]
         if name in ['train','superset']:
             image_pipeline.extend([
@@ -66,7 +66,7 @@ def make_dataloaders(train_dataset=None, val_dataset=None, batch_size=None, num_
             ])
         image_pipeline.extend([
             ToTensor(),
-            ToDevice('cuda:0', non_blocking=True),
+            ToDevice(ch.device("cuda:0"), non_blocking=True),
             ToTorchImage(),
             Convert(ch.float16),
             torchvision.transforms.Normalize(CIFAR_MEAN, CIFAR_STD),
@@ -162,7 +162,7 @@ def evaluate(model, loaders, lr_tta=False):
     model.eval()
     with ch.no_grad():
         all_margins = []
-        accuracies=[]
+        #accuracies=[]
         i=0
         for ims, labs in tqdm(loaders['superset']):
             i+=1
@@ -173,25 +173,24 @@ def evaluate(model, loaders, lr_tta=False):
                     out /= 2
                 #using correct class margins, not confidences
                 #print("using logits")
-                
-                prediction = ch.argmax(out[ch.arange(out.shape[0]), :],1)
-                accuracy = (prediction == labs)
+                #prediction = ch.argmax(out[ch.arange(out.shape[0]), :],1)
+                #accuracy = (prediction == labs)
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
                 #out[ch.arange(out.shape[0]), labs] = -1000
                 #next_classes = out.argmax(1)
                 #class_logits -= out[ch.arange(out.shape[0]), next_classes]
                 all_margins.append(class_logits.cpu())
-                accuracies.append(accuracy.cpu())
+                #accuracies.append(accuracy.cpu())
         all_margins = ch.cat(all_margins)
-        accuracies = ch.cat(accuracies).long().float()
-        print("head of accuracies: " + str(accuracies[:5]))
-        print("mean accuracy: " + str(ch.mean(accuracies)))
+        #accuracies = ch.cat(accuracies).long().float()
+        #print("head of accuracies: " + str(accuracies[:5]))
+        #print("mean accuracy: " + str(ch.mean(accuracies)))
         #print("all_margins shape: " + str(all_margins.shape))
         #print('Average margin:', all_margins.mean())
         return all_margins.numpy()
-
 def main(index, logdir):
     config = get_current_config()
+    print("device count: " + str(ch.cuda.device_count()))
     parser = ArgumentParser(description='Fast CIFAR-10 training')
     config.augment_argparse(parser)
     # Also loads from args.config_path if provided
@@ -200,7 +199,7 @@ def main(index, logdir):
     config.summary()
 
 
-    mask = (np.random.rand(50_000) > 0.5)
+    mask = (np.random.rand(10_000) > 0.5)
     loaders = make_dataloaders(mask=np.nonzero(mask)[0])
     model = construct_model()
     train(model, loaders)

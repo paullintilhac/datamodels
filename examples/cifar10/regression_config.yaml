@@ -1,6 +1,6 @@
 data:
     data_path: 'OUT_DIR/data.beton' # Path to FFCV dataset
-    num_train: 900 # Number of models to use for training
+    num_train: 1900 # Number of models to use for training
     num_val: 100 # Number of models to use for validation
     seed: 0 # Random seed for picking validation set
     target_start_ind: 0 # Select a slice of the data to run on

@@ -3,7 +3,8 @@
 echo "> Setting up regression..."
 
 # Change to OUT_DIR from the training script
-tmp_dir=./tmp/
+tmp_dir=./tmp/10379
+
 
 python -m datamodels.regression.write_dataset \
              --cfg.data_dir $tmp_dir \
