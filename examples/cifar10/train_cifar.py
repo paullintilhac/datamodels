@@ -72,7 +72,7 @@ def make_dataloaders(train_dataset=None, val_dataset=None, batch_size=None, num_
             torchvision.transforms.Normalize(CIFAR_MEAN, CIFAR_STD),
         ])
         
-        ordering = OrderOption.SEQUENTIAL if name == 'train' else OrderOption.SEQUENTIAL
+        ordering = OrderOption.RANDOM if name == 'train' else OrderOption.SEQUENTIAL
 
         loaders[name] = Loader(paths[name], indices=(mask if name == 'train' else None),
                                batch_size=batch_size, num_workers=num_workers,
