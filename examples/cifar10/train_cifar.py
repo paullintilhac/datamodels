@@ -162,8 +162,9 @@ def evaluate(model, loaders, lr_tta=False):
     model.eval()
     with ch.no_grad():
         all_margins = []
-        
+        i=0
         for ims, labs in tqdm(loaders['superset']):
+            i+=1
             with autocast():
                 out = model(ims)
                 if lr_tta:
@@ -171,6 +172,11 @@ def evaluate(model, loaders, lr_tta=False):
                     out /= 2
                 #using correct class margins, not confidences
                 #print("using logits")
+                if i==1:
+                    print("out shape: " + str(out.shape))
+                    prediction = ch.argmax(out[ch.arange(out.shape[0]), :])
+                    print("prediction: " + str(prediction))
+
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
                 #out[ch.arange(out.shape[0]), labs] = -1000
                 #next_classes = out.argmax(1)
