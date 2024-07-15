@@ -21,7 +21,6 @@ python -m datamodels.training.initialize_store \
 
 
 seq 0 4999 | parallel -k --lb -j1 CUDA_VISIBLE_DEVICES='$(({%} % 1))' \
-
  python -m datamodels.training.worker \
     --worker.index={} \
     --worker.main_import=examples.cifar10.train_cifar \
