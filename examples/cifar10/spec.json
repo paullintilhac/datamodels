@@ -8,6 +8,10 @@
         "margins": {
             "shape": [10000],
             "dtype": "float16"
+        },
+        "confidences": {
+            "shape": [10000],
+            "dtype": "float16"
         }
     }
 }

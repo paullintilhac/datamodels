@@ -143,7 +143,7 @@ def train(model, loaders, lr=None, epochs=None, label_smoothing=None,
     scheduler = lr_scheduler.LambdaLR(opt, lr_schedule.__getitem__)
     scaler = GradScaler()
     loss_fn = CrossEntropyLoss(label_smoothing=label_smoothing)
-
+    loss = None
     for _ in range(epochs):
         for ims, labs in tqdm(loaders['train']):
             opt.zero_grad(set_to_none=True)
@@ -155,12 +155,14 @@ def train(model, loaders, lr=None, epochs=None, label_smoothing=None,
             scaler.step(opt)
             scaler.update()
             scheduler.step()
+    print("done training! loss: " +str(loss) )
 
 @param('training.lr_tta')
 def evaluate(model, loaders, lr_tta=False):
     model.eval()
     with ch.no_grad():
         all_margins = []
+        all_confidences = []
         #accuracies=[]
         i=0
         for ims, labs in tqdm(loaders['superset']):
@@ -172,22 +174,25 @@ def evaluate(model, loaders, lr_tta=False):
                     out /= 2
                 #using correct class margins, not confidences
                 #print("using logits")
-                
                 #prediction = ch.argmax(out[ch.arange(out.shape[0]), :],1)
                 #accuracy = (prediction == labs)
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
-                #out[ch.arange(out.shape[0]), labs] = -1000
-                #next_classes = out.argmax(1)
-                #class_logits -= out[ch.arange(out.shape[0]), next_classes]
+                all_confidences.append(class_logits.cpu())
+                class_logits = class_logits.clone()
+                out[ch.arange(out.shape[0]), labs] = -1000
+                next_classes = out.argmax(1)
+                class_logits -= out[ch.arange(out.shape[0]), next_classes]
                 all_margins.append(class_logits.cpu())
                 #accuracies.append(accuracy.cpu())
         all_margins = ch.cat(all_margins)
+        all_confidences = ch.cat(all_confidences)
+
         #accuracies = ch.cat(accuracies).long().float()
         #print("head of accuracies: " + str(accuracies[:5]))
         #print("mean accuracy: " + str(ch.mean(accuracies)))
         #print("all_margins shape: " + str(all_margins.shape))
         #print('Average margin:', all_margins.mean())
-        return all_margins.numpy()
+        return all_margins.numpy(),all_confidences.numpy()
 def main(index, logdir):
     config = get_current_config()
     print("device count: " + str(ch.cuda.device_count()))
@@ -203,9 +208,10 @@ def main(index, logdir):
     loaders = make_dataloaders(mask=np.nonzero(mask)[0])
     model = construct_model()
     train(model, loaders)
-    res = evaluate(model, loaders)
-    print(mask.shape, res.shape)
+    margins,confidences = evaluate(model, loaders)
+    print(mask.shape, margins.shape, confidences.shape)
     return {
         'masks': mask,
-        'margins': res
+        'margins': margins,
+        "confidences": confidences
     }
