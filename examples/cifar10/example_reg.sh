@@ -3,7 +3,7 @@
 echo "> Setting up regression..."
 
 # Change to OUT_DIR from the training script
-tmp_dir=/drive/Shareddrives/TEMFOM/tmp/combined
+tmp_dir=/content/drive/Shareddrives/TEMFOM/tmp/combined
 
 
 python -m datamodels.regression.write_dataset \
