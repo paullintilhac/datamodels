@@ -9,7 +9,7 @@ tmp_dir=/content/drive/Shareddrives/TEMFOM/tmp/combined
 python -m datamodels.regression.write_dataset \
              --cfg.data_dir $tmp_dir \
              --cfg.out_path "$tmp_dir/reg_data.beton" \
-             --cfg.y_name confidences \
+             --cfg.y_name margins \
              --cfg.x_name masks
 echo "> regression data prepared!"
 
