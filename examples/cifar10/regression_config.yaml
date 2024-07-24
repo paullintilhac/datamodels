@@ -1,10 +1,10 @@
 data:
     data_path: 'OUT_DIR/data.beton' # Path to FFCV dataset
-    num_train: 1900 # Number of models to use for training
-    num_val: 100 # Number of models to use for validation
+    num_train: 24000 # Number of models to use for training
+    num_val: 1580 # Number of models to use for validation
     seed: 0 # Random seed for picking validation set
     target_start_ind: 0 # Select a slice of the data to run on
-    target_end_ind: 10000 # Select a slice of the data to run on (-1 = end)
+    target_end_ind: -1 # Select a slice of the data to run on (-1 = end)
     # If target_start_ind and target_end_ind are specified, will slice the
     # output variable accordingly
 cfg:

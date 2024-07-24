@@ -203,8 +203,9 @@ def main(index, logdir):
     config.validate(mode='stderr')
     config.summary()
 
-
-    mask = (np.random.rand(10_000) > 0.5)
+    onion_mask = np.load("/dartfs/rc/lab/C/CybenkoG/top_5pct_outlier_inds.npy")
+    mask = (np.random.rand(10_000) > 0.45)
+    mask=np.multiply(mask,onion_mask)
     loaders = make_dataloaders(mask=np.nonzero(mask)[0])
     model = construct_model()
     train(model, loaders)
