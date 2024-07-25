@@ -22,4 +22,5 @@ rclone config
 mkdir tmp
 rclone copy temfom:tmp tmp
 rclone copy temfom:files files
-./examples/cifar10/example.sh &> log_0.txt & rclone sync tmp temfom:tmp
+mkdir jobs
+./examples/cifar10/example.sh &> jobs/log_0.txt & rclone sync tmp temfom:tmp
