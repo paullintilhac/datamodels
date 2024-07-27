@@ -19,4 +19,4 @@ python -m datamodels.regression.compute_datamodels \
     --data.data_path "$tmp_dir/reg_data.beton" \
     --cfg.out_dir "$tmp_dir/reg_results_onion"
 echo "> regression DONE!"
-echo "> Datamodels stored in: $tmp_dir/reg_results_onion/datamodels_confidences.pt" 
+echo "> Datamodels stored in: $tmp_dir/reg_results_onion/datamodels.pt" 
