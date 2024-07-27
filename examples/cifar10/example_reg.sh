@@ -17,6 +17,6 @@ echo "> starting regression..."
 python -m datamodels.regression.compute_datamodels \
     -C examples/cifar10/regression_config.yaml \
     --data.data_path "$tmp_dir/reg_data.beton" \
-    --cfg.out_dir "$tmp_dir/reg_results"
+    --cfg.out_dir "$tmp_dir/reg_results_onion"
 echo "> regression DONE!"
-echo "> Datamodels stored in: $tmp_dir/reg_results/datamodels.pt" 
+echo "> Datamodels stored in: $tmp_dir/reg_results_onion/datamodels.pt" 
