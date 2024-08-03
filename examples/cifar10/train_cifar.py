@@ -28,13 +28,13 @@ Section('training', 'Hyperparameters').params(
     momentum=Param(float, 'Momentum for SGD', default=0.9),
     weight_decay=Param(float, 'l2 weight decay', default=5e-4),
     label_smoothing=Param(float, 'Value of label smoothing', default=0.1),
-    num_workers=Param(int, 'The number of workers', default=1),
+    num_workers=Param(int, 'The number of workers', default=4),
     lr_tta=Param(bool, 'Test time augmentation by averaging with horizontally flipped version', default=True)
 )
-file_prefix = "/dartfs/rc/lab/C/CybenkoG/cifar-ffcv"
+file_prefix = "/dartfs/rc/lab/C/CybenkoG/cifar-ffcv2"
 Section('data', 'data related stuff').params(
     train_dataset=Param(str, '.dat file to use for training', 
-        default=file_prefix+ '/cifar_val.beton'),
+        default=file_prefix+ '/cifar_train.beton'),
     val_dataset=Param(str, '.dat file to use for validation', 
         default=file_prefix+'/cifar_val.beton'),
 )
@@ -73,7 +73,7 @@ def make_dataloaders(train_dataset=None, val_dataset=None, batch_size=None, num_
         ])
         
         ordering = OrderOption.RANDOM if name == 'train' else OrderOption.SEQUENTIAL
-
+        print("len of mask: " + str(len(mask)))
         loaders[name] = Loader(paths[name], indices=(mask if name == 'train' else None),
                                batch_size=batch_size, num_workers=num_workers,
                                order=ordering, drop_last=(name == 'train'),
@@ -203,9 +203,10 @@ def main(index, logdir):
     config.validate(mode='stderr')
     config.summary()
 
-    onion_mask = np.load("/dartfs/rc/lab/C/CybenkoG/files/top_5pct_outlier_inds.npy")
-    mask = (np.random.rand(10_000) > 0.5)
-    mask=np.multiply(mask,onion_mask)
+    #onion_mask = np.load("/dartfs/rc/lab/C/CybenkoG/files/top_5pct_outlier_inds.npy")
+    mask = (np.random.rand(50_000) > 0.5)
+    subset_mask = np.ones(10000).extend(np.zeros(40000))
+    mask=np.multiply(mask,subset_mask)
     loaders = make_dataloaders(mask=np.nonzero(mask)[0])
     model = construct_model()
     train(model, loaders)
