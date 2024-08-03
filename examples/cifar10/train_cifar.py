@@ -208,7 +208,9 @@ def main(index, logdir):
     zeros =  np.zeros(40000)
     print("ones shape: " + str(ones.shape) + ", zeros: " + str(zeros))
     subset_mask = np.concatenate((ones,zeros))
+
     print("subset mask dim: " + str(subset_mask.shape))
+    print("subset mask sum: " + str(np.sum(subset_mask)))
     mask=np.multiply(mask,subset_mask)
 
     loaders = make_dataloaders(mask=np.nonzero(mask)[0])
