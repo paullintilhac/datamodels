@@ -47,7 +47,7 @@ def make_dataloaders(train_dataset=None, val_dataset=None, batch_size=None, num_
     paths = {
         'train': train_dataset,
         'test': val_dataset,
-        'superset': train_dataset,
+        'superset': val_dataset,
     }
 
     start_time = time.time()
@@ -204,6 +204,7 @@ def main(index, logdir):
     config.summary()
 
     mask = (np.random.rand(50_000) > 0.5)
+
     ones = np.ones(10000)
     zeros =  np.zeros(40000)
     print("ones shape: " + str(ones.shape) + ", zeros: " + str(zeros))
