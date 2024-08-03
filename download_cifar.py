@@ -12,9 +12,14 @@ from ffcv.transforms import RandomHorizontalFlip, Cutout, \
 from ffcv.transforms.common import Squeeze
 from ffcv.writer import DatasetWriter
 datasets = {
-    'train': torchvision.datasets.CIFAR10('/dartfs/rc/lab/C/CybenkoG/cifar-ffcv', train=True, download=True),
-    'test': torchvision.datasets.CIFAR10('/dartfs/rc/lab/C/CybenkoG/cifar-ffcv', train=False, download=True)
+    'train': torchvision.datasets.CIFAR10('/dartfs/rc/lab/C/CybenkoG/cifar-ffcv2', train=True, download=True),
+    'test': torchvision.datasets.CIFAR10('/dartfs/rc/lab/C/CybenkoG/cifar-ffcv2', train=False, download=True)
 }
+
+train = datasets['train']
+print("train: " + str(type(train[0])))
+print("len train: " + str(len(train)))
+print("train[0]: " + str(train[0]))
 
 for (name, ds) in datasets.items():
     writer = DatasetWriter(f'/dartfs/rc/lab/C/CybenkoG/cifar-ffcv/cifar_{name}.beton', {

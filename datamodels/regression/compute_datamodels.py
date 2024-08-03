@@ -144,7 +144,7 @@ def main(lr: float, k: int, eps: float,
 
     weight = ch.zeros(n_features, n_targets).cuda()
     bias = ch.zeros(n_targets).cuda()
-
+    
     assert not os.path.exists(out_dir)
     log_path = Path(out_dir) / 'regularization_path/'
     final_log_path = Path(out_dir) / 'final_lambda/'
