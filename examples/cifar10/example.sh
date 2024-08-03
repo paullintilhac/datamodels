@@ -20,7 +20,7 @@ python -m datamodels.training.initialize_store \
 #   index number (i.e. the current `seq` output) modulo 8
 
 
-seq 0 4999 | parallel -k --lb -j4 CUDA_VISIBLE_DEVICES='$(({%} % 4))' \
+seq 0 9999 | parallel -k --lb -j4 CUDA_VISIBLE_DEVICES='$(({%} % 1))' \
  python -m datamodels.training.worker \
     --worker.index={} \
     --worker.main_import=examples.cifar10.train_cifar \
