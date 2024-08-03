@@ -212,6 +212,7 @@ def main(index, logdir):
     print("subset mask dim: " + str(subset_mask.shape))
     print("subset mask sum: " + str(np.sum(subset_mask)))
     mask=np.multiply(mask,subset_mask)
+    print("mask sum: " + str(np.sum(mask)))
 
     loaders = make_dataloaders(mask=np.nonzero(mask)[0])
     model = construct_model()
