@@ -203,7 +203,6 @@ def main(index, logdir):
     config.validate(mode='stderr')
     config.summary()
 
-    #onion_mask = np.load("/dartfs/rc/lab/C/CybenkoG/files/top_5pct_outlier_inds.npy")
     mask = (np.random.rand(50_000) > 0.5)
     ones = np.ones(10000)
     zeros =  np.zeros(40000)
