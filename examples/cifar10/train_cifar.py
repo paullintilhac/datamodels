@@ -34,7 +34,7 @@ Section('training', 'Hyperparameters').params(
 file_prefix = "/dartfs/rc/lab/C/CybenkoG/cifar-ffcv"
 Section('data', 'data related stuff').params(
     train_dataset=Param(str, '.dat file to use for training', 
-        default=file_prefix+ '/cifar_val.beton'),
+        default=file_prefix+ '/cifar_train.beton'),
     val_dataset=Param(str, '.dat file to use for validation', 
         default=file_prefix+'/cifar_val.beton'),
 )
@@ -203,9 +203,14 @@ def main(index, logdir):
     config.validate(mode='stderr')
     config.summary()
 
-    onion_mask = np.load("/dartfs/rc/lab/C/CybenkoG/files/top_5pct_outlier_inds.npy")
-    mask = (np.random.rand(10_000) > 0.5)
-    mask=np.multiply(mask,onion_mask)
+    mask = (np.random.rand(50_000) > 0.5)
+    ones = np.ones(10000)
+    zeros =  np.zeros(40000)
+    print("ones shape: " + str(ones.shape) + ", zeros: " + str(zeros))
+    subset_mask = np.concatenate((ones,zeros))
+    print("subset mask dim: " + str(subset_mask.shape))
+    mask=np.multiply(mask,subset_mask)
+
     loaders = make_dataloaders(mask=np.nonzero(mask)[0])
     model = construct_model()
     train(model, loaders)
