@@ -47,7 +47,7 @@ def make_dataloaders(train_dataset=None, val_dataset=None, batch_size=None, num_
     paths = {
         'train': train_dataset,
         'test': val_dataset,
-        'superset': train_dataset,
+        'superset': val_dataset,
     }
 
     start_time = time.time()
