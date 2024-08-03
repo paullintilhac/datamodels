@@ -205,7 +205,10 @@ def main(index, logdir):
 
     #onion_mask = np.load("/dartfs/rc/lab/C/CybenkoG/files/top_5pct_outlier_inds.npy")
     mask = (np.random.rand(50_000) > 0.5)
-    subset_mask = np.concatenate(np.ones(10000), np.zeros(40000))
+    ones = np.ones(10000)
+    zeros =  np.zeros(40000)
+    print("ones shape: " + str(ones.shape) + ", zeros: " + str(zeros))
+    subset_mask = np.concatenate((ones,zeros))
     print("subset mask dim: " + str(subset_mask.shape))
     mask=np.multiply(mask,subset_mask)
     loaders = make_dataloaders(mask=np.nonzero(mask)[0])
