@@ -219,7 +219,7 @@ def main(index, logdir):
     margins,confidences = evaluate(model, loaders)
     print(mask.shape, margins.shape, confidences.shape)
     return {
-        'masks': mask,
+        'masks': mask[:10000],
         'margins': margins,
         "confidences": confidences
     }
