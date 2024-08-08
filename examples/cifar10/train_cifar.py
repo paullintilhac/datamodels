@@ -185,6 +185,7 @@ def evaluate(model, loaders, lr_tta=False):
                 probs[:,labs]=0
                 wrong_probs = ch.sum(probs,1)
                 final_score = ch.log(correct_probs+1e-45)-ch.log(wrong_probs+1e-45)
+                print("final score shape: " + str(final_score.shape))
                 all_confidences.append(final_score.cpu())
                 class_logits = class_logits.clone()
                 
