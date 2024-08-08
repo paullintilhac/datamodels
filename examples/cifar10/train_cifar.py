@@ -186,7 +186,7 @@ def evaluate(model, loaders, lr_tta=False):
                 probs = ch.exp(out)/denomMat
                 print("probs shape: " + str(probs.shape))
                 print("labs shape: " + str(labs.shape))
-                correct_probs = probs[:,labs.numpy()]
+                correct_probs = probs[:,labs.cpu()]
                 probs[:,labs]=0
                 print("shape of probs: " + str(probs.shape))
                 wrong_probs = ch.sum(probs,axis=1)
