@@ -178,10 +178,10 @@ def evaluate(model, loaders, lr_tta=False):
                 #accuracy = (prediction == labs)
                 
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
-                subtractMat = class_logits.view(out.shape[0],1).expand_as(out.shape[0],10)
+                subtractMat = class_logits.view(out.shape[0],1).expand(out.shape[0],10)
                 print("shape of subtractMat: " + str(subtractMat.shape))
                 out = out-subtractMat
-                denomMat = (ch.sum(out,1).view(out.shape[0],1).expand_as(out.shape[0],10))
+                denomMat = (ch.sum(out,1).view(out.shape[0],1).expand(out.shape[0],10))
                 print("shape of denomMat: " + str(denomMat.shape))
                 probs = ch.exp(out)/denomMat
                 correct_probs = probs[:,labs]
