@@ -185,6 +185,9 @@ def evaluate(model, loaders, lr_tta=False):
                 correct_probs = probs[ch.arange(out.shape[0]), labs]
                 probs[ch.arange(out.shape[0]),labs]=0
                 wrong_probs = ch.sum(probs,axis=1)
+                print("correct probs: " +str(correct_probs))
+                print("wrong probs: " +str(wrong_probs))
+
                 final_score = ch.log(correct_probs+1e-45)-ch.log(wrong_probs+1e-45)
                 print("final score mean: " + str(ch.mean(final_score)))
                 all_confidences.append(final_score.cpu())
