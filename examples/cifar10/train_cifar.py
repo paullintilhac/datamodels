@@ -176,9 +176,17 @@ def evaluate(model, loaders, lr_tta=False):
                 #print("using logits")
                 #prediction = ch.argmax(out[ch.arange(out.shape[0]), :],1)
                 #accuracy = (prediction == labs)
+                
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
-                all_confidences.append(class_logits.cpu())
+                out = out-class_logits
+                probs = ch.exp(out)/ch.sum(out,1)
+                correct_probs = probs[:,labs]
+                probs[:,labs]=0
+                wrong_probs = ch.sum(probs,1)
+                final_score = ch.log(correct_probs+1e-45)-ch.log(wrong_probs+1e-45)
+                all_confidences.append(final_score.cpu())
                 class_logits = class_logits.clone()
+                
                 out[ch.arange(out.shape[0]), labs] = -1000
                 next_classes = out.argmax(1)
                 class_logits -= out[ch.arange(out.shape[0]), next_classes]
