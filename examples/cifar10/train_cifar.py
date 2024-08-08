@@ -178,8 +178,9 @@ def evaluate(model, loaders, lr_tta=False):
                 #accuracy = (prediction == labs)
                 
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
-                out = out-class_logits
-                probs = ch.exp(out)/ch.sum(out,1)
+                out = out-class_logits.view(out.shape[0],1).expand_as(out)
+                
+                probs = ch.exp(out)/(ch.sum(out,1).view(out.shape[0],1).expand_as(out))
                 correct_probs = probs[:,labs]
                 probs[:,labs]=0
                 wrong_probs = ch.sum(probs,1)
