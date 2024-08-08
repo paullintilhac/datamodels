@@ -182,17 +182,11 @@ def evaluate(model, loaders, lr_tta=False):
                 out = out-subtractMat
                 denomMat = (ch.sum(out,1).view(out.shape[0],1).expand(out.shape[0],10))
                 probs = ch.exp(out)/denomMat
-
                 correct_probs = probs[ch.arange(out.shape[0]), labs]
-                print("prob before: " + str(probs[0,:]))
                 probs[ch.arange(out.shape[0]),labs]=0
-                print("prob before: " + str(probs[0,:]))
-
-                print("shape of probs: " + str(probs.shape))
                 wrong_probs = ch.sum(probs,axis=1)
-                print("correct probs shape: " + str(correct_probs.shape) + ", wrong probs shape: " +str(wrong_probs.shape))
                 final_score = ch.log(correct_probs+1e-45)-ch.log(wrong_probs+1e-45)
-                print("final score shape: " + str(final_score.shape) + ", class logits shape: " + str(class_logits.shape))
+                print("final score mean: " + str(ch.mean(final_score)))
                 all_confidences.append(final_score.cpu())
                 class_logits = class_logits.clone()
                 
