@@ -179,15 +179,13 @@ def evaluate(model, loaders, lr_tta=False):
                 
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
                 subtractMat = class_logits.view(out.shape[0],1).expand(out.shape[0],10)
-                print("shape of subtractMat: " + str(subtractMat.shape))
                 out = out-subtractMat
                 denomMat = (ch.sum(out,1).view(out.shape[0],1).expand(out.shape[0],10))
-                print("shape of denomMat: " + str(denomMat.shape))
                 probs = ch.exp(out)/denomMat
 
                 correct_probs = probs[ch.arange(out.shape[0]), labs]
                 print("prob before: " + str(probs[0,:]))
-                probs[:,labs]=0
+                probs[ch.arange(out.shape[0]),labs]=0
                 print("prob before: " + str(probs[0,:]))
 
                 print("shape of probs: " + str(probs.shape))
