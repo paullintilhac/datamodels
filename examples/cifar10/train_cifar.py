@@ -176,11 +176,11 @@ def evaluate(model, loaders, lr_tta=False):
                 #print("using logits")
                 #prediction = ch.argmax(out[ch.arange(out.shape[0]), :],1)
                 #accuracy = (prediction == labs)
-                rawMins = ch.min(out,axis=1)
-                rawMaxs = ch.max(out,axis=1)
+                rawMins = ch.min(out,axis=1)[0]
+                rawMaxs = ch.max(out,axis=1)[0]
                 print("raw min shape: " + str(rawMins.shape))
                 print("raw max shape: " + str(rawMaxs.shape))
-                
+
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
                 out = out-class_logits.view(out.shape[0],1).expand(out.shape[0],10)
                 out = ch.exp(out)
