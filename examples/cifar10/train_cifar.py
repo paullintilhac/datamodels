@@ -180,10 +180,10 @@ def evaluate(model, loaders, lr_tta=False):
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
                 out = out-class_logits.view(out.shape[0],1).expand(out.shape[0],10)
                 out = ch.exp(out)
-                probs = out/(ch.sum(out,1).view(out.shape[0],1).expand(out.shape[0],10))
-                correct_probs = probs[ch.arange(out.shape[0]), labs]
-                probs[ch.arange(out.shape[0]),labs]=0
-                wrong_probs = ch.sum(probs,axis=1)
+                out = out/(ch.sum(out,1).view(out.shape[0],1).expand(out.shape[0],10))
+                correct_probs = out[ch.arange(out.shape[0]), labs]
+                out[ch.arange(out.shape[0]),labs]=0
+                wrong_probs = ch.sum(out,axis=1)
                 print("correct probs: " +str(correct_probs))
                 print("wrong probs: " +str(wrong_probs))
 
