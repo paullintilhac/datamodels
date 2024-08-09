@@ -201,7 +201,7 @@ def evaluate(model, loaders, lr_tta=False):
                 #accuracies.append(accuracy.cpu())
         all_margins = ch.cat(all_margins)
         all_confidences = ch.cat(all_confidences)
-        print("final confidence mean: " + str(ch.mean(all_confidences[0])))
+        print("final confidence mean: " + str(all_confidences[0]))
         #accuracies = ch.cat(accuracies).long().float()
         #print("head of accuracies: " + str(accuracies[:5]))
         #print("mean accuracy: " + str(ch.mean(accuracies)))
