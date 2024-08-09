@@ -188,7 +188,9 @@ def evaluate(model, loaders, lr_tta=False):
                 print("wrong probs: " +str(wrong_probs))
 
                 final_score = ch.log(correct_probs+1e-45)-ch.log(wrong_probs+1e-45)
-                print("final score mean: " + str(ch.mean(final_score)))
+                print("final score min: " + str(ch.min(final_score)))
+                print("final score max: " + str(ch.max(final_score)))
+
                 all_confidences.append(final_score.cpu())
                 class_logits = class_logits.clone()
                 
