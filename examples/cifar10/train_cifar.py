@@ -184,12 +184,12 @@ def evaluate(model, loaders, lr_tta=False):
                 correct_probs = out[ch.arange(out.shape[0]), labs]
                 out[ch.arange(out.shape[0]),labs]=0
                 wrong_probs = ch.sum(out,axis=1)
-                print("correct probs: " +str(correct_probs))
-                print("wrong probs: " +str(wrong_probs))
+                #print("correct probs: " +str(correct_probs))
+                #print("wrong probs: " +str(wrong_probs))
 
                 final_score = ch.log(correct_probs+1e-45)-ch.log(wrong_probs+1e-45)
-                print("final score min: " + str(ch.min(final_score)))
-                print("final score max: " + str(ch.max(final_score)))
+                #print("final score min: " + str(ch.min(final_score)))
+                #print("final score max: " + str(ch.max(final_score)))
 
                 all_confidences.append(final_score.cpu())
                 class_logits = class_logits.clone()
@@ -201,7 +201,7 @@ def evaluate(model, loaders, lr_tta=False):
                 #accuracies.append(accuracy.cpu())
         all_margins = ch.cat(all_margins)
         all_confidences = ch.cat(all_confidences)
-
+        print("final confidence mean: " + str(ch.mean(all_confidences[0])))
         #accuracies = ch.cat(accuracies).long().float()
         #print("head of accuracies: " + str(accuracies[:5]))
         #print("mean accuracy: " + str(ch.mean(accuracies)))
