@@ -34,7 +34,7 @@ Section('training', 'Hyperparameters').params(
 file_prefix = "/dartfs/rc/lab/C/CybenkoG/cifar-ffcv"
 Section('data', 'data related stuff').params(
     train_dataset=Param(str, '.dat file to use for training', 
-        default=file_prefix+ '/cifar_train.beton'),
+        default=file_prefix+ '/cifar_val.beton'),
     val_dataset=Param(str, '.dat file to use for validation', 
         default=file_prefix+'/cifar_val.beton'),
 )
@@ -218,15 +218,8 @@ def main(index, logdir):
     config.validate(mode='stderr')
     config.summary()
 
-    mask = (np.random.rand(50_000) > 0.5)
-    ones = np.ones(10000)
-    zeros =  np.zeros(40000)
-    print("ones shape: " + str(ones.shape) + ", zeros: " + str(zeros))
-    subset_mask = np.concatenate((ones,zeros))
-
-    print("subset mask dim: " + str(subset_mask.shape))
-    print("subset mask sum: " + str(np.sum(subset_mask)))
-    mask=np.multiply(mask,subset_mask)
+    mask = (np.random.rand(10_000) > 0.5)
+    
     print("mask sum: " + str(np.sum(mask)))
 
     loaders = make_dataloaders(mask=np.nonzero(mask)[0])
@@ -235,7 +228,7 @@ def main(index, logdir):
     margins,confidences = evaluate(model, loaders)
     print(mask.shape, margins.shape, confidences.shape)
     return {
-        'masks': mask[:10000],
+        'masks': mask,
         'margins': margins,
         "confidences": confidences
     }
