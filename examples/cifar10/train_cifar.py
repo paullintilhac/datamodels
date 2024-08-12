@@ -222,7 +222,8 @@ def main(index, logdir):
     config.summary()
 
     mask = (np.random.rand(10_000) > 0.5)
-    
+    onion_mask = np.load("/dartfs/rc/lab/C/CybenkoG/files/top_5pct_outlier_inds_fix.npy")
+    mask=np.multiply(mask,onion_mask)
     print("mask sum: " + str(np.sum(mask)))
 
     loaders = make_dataloaders(mask=np.nonzero(mask)[0])
