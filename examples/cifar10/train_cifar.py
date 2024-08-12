@@ -178,8 +178,6 @@ def evaluate(model, loaders, lr_tta=False):
                 #accuracy = (prediction == labs)
                 rawMins = ch.min(out,axis=1)[0]
                 rawMaxs = ch.max(out,axis=1)[0]
-                print("raw min shape: " + str(rawMins[:10]))
-                print("raw max shape: " + str(rawMaxs[:10]))
 
                 class_logits = out[ch.arange(out.shape[0]), labs].clone()
                 out = out-class_logits.view(out.shape[0],1).expand(out.shape[0],10)
@@ -207,7 +205,6 @@ def evaluate(model, loaders, lr_tta=False):
                 #accuracies.append(accuracy.cpu())
         all_margins = ch.cat(all_margins)
         all_confidences = ch.cat(all_confidences)
-        print("final confidence mean: " + str(all_confidences))
         #accuracies = ch.cat(accuracies).long().float()
         #print("head of accuracies: " + str(accuracies[:5]))
         #print("mean accuracy: " + str(ch.mean(accuracies)))
